@@ -12,6 +12,7 @@ from src.core.logging import configure_logging
 from src.core.middleware import SecurityHeadersMiddleware
 from src.core.request_id import RequestIdMiddleware
 from src.db.database import check_database_connection
+from src.domains.auth.router import router as auth_router
 
 app_settings = get_app_settings()
 
@@ -34,6 +35,7 @@ app.add_middleware(SecurityHeadersMiddleware, hsts=app_settings.app_env == "prod
 # Added last so it runs outermost: every request/response carries a request ID.
 app.add_middleware(RequestIdMiddleware)
 
+app.include_router(auth_router)
 
 
 @app.get("/")
