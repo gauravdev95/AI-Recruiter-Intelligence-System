@@ -3,21 +3,209 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    @apply bg-[#05070f] text-slate-200 antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    @apply bg-brand-500/40 text-white;
   }
 }
 
 @layer components {
-  .card {
-    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-sm;
+  /* ---------- surfaces ---------- */
+  .glass {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+  .glass-strong {
+    @apply rounded-2xl border border-white/10 bg-[#0b0f1d]/90 backdrop-blur-xl;
+  }
+  .card-dark {
+    @apply glass p-6 transition-all duration-300;
   }
 
-  .btn-primary {
-    @apply inline-flex w-full items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60;
+  /* ---------- buttons ---------- */
+  .btn-primary-glow {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-brand-600 to-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_0_30px_-5px_rgba(59,130,246,0.6)] transition-all duration-300 hover:shadow-[0_0_45px_-5px_rgba(59,130,246,0.9)] hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-200 backdrop-blur transition-all duration-300 hover:border-white/30 hover:bg-white/10 active:scale-[0.98];
   }
 
-  .input-field {
-    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-100;
+  /* ---------- inputs ---------- */
+  .input-dark {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none backdrop-blur transition-all duration-200 focus:border-brand-500/60 focus:bg-white/[0.08] focus:ring-2 focus:ring-brand-500/20;
   }
+  .label-dark {
+    @apply mb-1.5 block text-sm font-medium text-slate-300;
+  }
+
+  /* ---------- text ---------- */
+  .gradient-text {
+    @apply bg-gradient-to-r from-sky-300 via-brand-400 to-violet-400 bg-clip-text text-transparent;
+  }
+  .section-kicker {
+    @apply mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-brand-300;
+  }
+
+  /* ---------- scroll reveal ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ---------- hero entrance ---------- */
+  .hero-in {
+    opacity: 0;
+    animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+
+  /* ---------- status dot ---------- */
+  .dot-live {
+    @apply relative inline-block h-2.5 w-2.5 rounded-full bg-emerald-400;
+  }
+  .dot-live::after {
+    content: "";
+    @apply absolute inset-0 rounded-full bg-emerald-400;
+    animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .dot-down {
+    @apply relative inline-block h-2.5 w-2.5 rounded-full bg-red-500;
+  }
+
+  /* ---------- terminal ---------- */
+  .terminal {
+    @apply glass-strong overflow-hidden font-mono text-[13px] leading-relaxed;
+  }
+  .terminal-cursor::after {
+    content: "▊";
+    @apply ml-0.5 text-brand-400;
+    animation: blink 1s step-end infinite;
+  }
+
+  /* ---------- misc anims ---------- */
+  .animate-float-slow {
+    animation: float-y 9s ease-in-out infinite;
+  }
+  .animate-float-slower {
+    animation: float-y 13s ease-in-out infinite reverse;
+  }
+  .animate-spin-slow {
+    animation: spin 14s linear infinite;
+  }
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-500/40 hover:shadow-[0_20px_60px_-15px_rgba(59,130,246,0.35)];
+  }
+  .method-badge {
+    @apply inline-flex min-w-[52px] items-center justify-center rounded-md px-2 py-1 font-mono text-[11px] font-bold tracking-wide;
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .mask-fade-y {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 82%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 12%, black 82%, transparent);
+  }
+  .mask-fade-radial {
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 30%, transparent 75%);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-26px);
+  }
+}
+
+@keyframes ping-soft {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  75%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-pan {
+  background-size: 200% 200%;
+  animation: gradient-pan 8s ease infinite;
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.flow-line {
+  transform-origin: left;
+  animation: draw-line 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }

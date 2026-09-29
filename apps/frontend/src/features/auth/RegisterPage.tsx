@@ -1,11 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
 import { api } from "../../lib/api";
 import { getApiErrorMessage } from "../../lib/apiError";
 import { setAccessToken } from "../../lib/tokenStore";
 import type { UserRole } from "../../lib/types";
+import AuthShell from "./AuthShell";
 
 /** Register page: full name / email / password / role. On success, stores the
  * access token in memory and navigates to /account. */
@@ -39,89 +39,97 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
-      <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-12">
-        <div className="card">
-          <h1 className="text-2xl font-bold text-slate-900">Create an account</h1>
-          <p className="mt-1 text-sm text-slate-600">Join AI Recruiter Intelligence as a candidate or recruiter.</p>
-          {error && (
-            <div role="alert" className="mt-4 rounded-lg bg-red-50 px-3 py-2.5 text-sm text-red-700">
-              {error}
-            </div>
-          )}
-          <form onSubmit={(e) => void handleSubmit(e)} className="mt-6 space-y-4">
-            <div>
-              <label htmlFor="register-name" className="mb-1 block text-sm font-medium text-slate-700">
-                Full name
-              </label>
-              <input
-                id="register-name"
-                type="text"
-                autoComplete="name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="input-field"
-                placeholder="Ada Lovelace"
-              />
-            </div>
-            <div>
-              <label htmlFor="register-email" className="mb-1 block text-sm font-medium text-slate-700">
-                Email
-              </label>
-              <input
-                id="register-email"
-                type="email"
-                required
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input-field"
-                placeholder="you@example.com"
-              />
-            </div>
-            <div>
-              <label htmlFor="register-password" className="mb-1 block text-sm font-medium text-slate-700">
-                Password
-              </label>
-              <input
-                id="register-password"
-                type="password"
-                required
-                minLength={8}
-                autoComplete="new-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="input-field"
-                placeholder="••••••••"
-              />
-            </div>
-            <div>
-              <label htmlFor="register-role" className="mb-1 block text-sm font-medium text-slate-700">
-                Role
-              </label>
-              <select
-                id="register-role"
-                value={role}
-                onChange={(e) => setRole(e.target.value as UserRole)}
-                className="input-field"
-              >
-                <option value="candidate">Candidate</option>
-                <option value="recruiter">Recruiter</option>
-              </select>
-            </div>
-            <button type="submit" disabled={isSubmitting} className="btn-primary">
-              {isSubmitting ? "Creating account…" : "Register"}
-            </button>
-          </form>
-          <p className="mt-4 text-center text-sm text-slate-600">
-            Already have an account?{" "}
-            <Link to="/login" className="font-medium text-brand-600 hover:text-brand-700">
-              Log in
-            </Link>
-          </p>
+    <AuthShell title="Create an account" subtitle="Join as a candidate or recruiter.">
+      {error && (
+        <div role="alert" className="mt-5 rounded-xl border border-red-400/25 bg-red-400/10 px-3.5 py-2.5 text-sm text-red-300">
+          {error}
         </div>
-      </main>
-    </div>
+      )}
+      <form onSubmit={(e) => void handleSubmit(e)} className="mt-6 space-y-4">
+        <div>
+          <label htmlFor="register-name" className="label-dark">
+            Full name
+          </label>
+          <input
+            id="register-name"
+            type="text"
+            autoComplete="name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            className="input-dark"
+            placeholder="Ada Lovelace"
+          />
+        </div>
+        <div>
+          <label htmlFor="register-email" className="label-dark">
+            Email
+          </label>
+          <input
+            id="register-email"
+            type="email"
+            required
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="input-dark"
+            placeholder="you@example.com"
+          />
+        </div>
+        <div>
+          <label htmlFor="register-password" className="label-dark">
+            Password
+          </label>
+          <input
+            id="register-password"
+            type="password"
+            required
+            minLength={8}
+            autoComplete="new-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input-dark"
+            placeholder="••••••••"
+          />
+        </div>
+        <div>
+          <label htmlFor="register-role" className="label-dark">
+            Role
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            {(["candidate", "recruiter"] as UserRole[]).map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRole(r)}
+                aria-pressed={role === r}
+                className={`rounded-xl border px-4 py-3 text-sm font-semibold capitalize transition-all duration-200 ${
+                  role === r
+                    ? "border-brand-500/60 bg-brand-500/15 text-white shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)]"
+                    : "border-white/10 bg-white/[0.04] text-slate-400 hover:border-white/25 hover:text-slate-200"
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+        </div>
+        <button type="submit" disabled={isSubmitting} className="btn-primary-glow w-full">
+          {isSubmitting ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              Creating account…
+            </>
+          ) : (
+            "Create account"
+          )}
+        </button>
+      </form>
+      <p className="mt-5 text-center text-sm text-slate-400">
+        Already have an account?{" "}
+        <Link to="/login" className="font-semibold text-brand-300 hover:text-brand-200">
+          Log in
+        </Link>
+      </p>
+    </AuthShell>
   );
 }

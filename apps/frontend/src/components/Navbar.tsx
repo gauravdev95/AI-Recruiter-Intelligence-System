@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { getAccessToken, setAccessToken } from "../lib/tokenStore";
 
-/** Top navigation bar. Shows Login/Register for guests, Account/Logout for sessions. */
+/** Sticky glass navbar — dark theme. */
 export default function Navbar() {
   const navigate = useNavigate();
   const isAuthed = Boolean(getAccessToken());
@@ -12,8 +12,7 @@ export default function Navbar() {
     try {
       await api.logout();
     } catch {
-      // Best-effort: still clear the client-side session even if the
-      // backend call fails (e.g. token already expired).
+      // Best-effort: still clear the client-side session.
     } finally {
       setAccessToken(null);
       navigate("/");
@@ -21,33 +20,44 @@ export default function Navbar() {
   }
 
   return (
-    <header className="border-b border-slate-200 bg-white">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <Link to="/" className="text-lg font-bold text-brand-700">
-          AI Recruiter Intelligence
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.07] bg-[#05070f]/70 backdrop-blur-xl">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
+        <Link to="/" className="group flex items-center gap-2.5">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-violet-600 text-sm font-black text-white shadow-[0_0_24px_-4px_rgba(59,130,246,0.8)] transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6">
+            AI
+          </span>
+          <span className="text-[15px] font-bold tracking-tight text-white">
+            Recruiter<span className="gradient-text"> Intelligence</span>
+          </span>
         </Link>
-        <div className="flex items-center gap-3 text-sm">
+        <div className="flex items-center gap-2.5 text-sm">
           {isAuthed ? (
             <>
-              <Link to="/account" className="font-medium text-slate-700 hover:text-brand-700">
+              <Link
+                to="/account"
+                className="rounded-lg px-3.5 py-2 font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+              >
                 Account
               </Link>
               <button
                 type="button"
                 onClick={() => void handleLogout()}
-                className="rounded-lg border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-100"
+                className="rounded-lg border border-white/15 bg-white/5 px-3.5 py-2 font-medium text-slate-200 transition-all hover:border-white/30 hover:bg-white/10"
               >
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="font-medium text-slate-700 hover:text-brand-700">
+              <Link
+                to="/login"
+                className="rounded-lg px-3.5 py-2 font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+              >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="rounded-lg bg-brand-600 px-3 py-1.5 font-medium text-white hover:bg-brand-700"
+                className="rounded-lg bg-gradient-to-r from-brand-600 to-violet-600 px-4 py-2 font-semibold text-white shadow-[0_0_20px_-5px_rgba(59,130,246,0.7)] transition-all hover:brightness-110"
               >
                 Register
               </Link>

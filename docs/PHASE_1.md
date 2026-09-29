@@ -50,3 +50,10 @@ without rewriting it.
 - [x] Docker Compose local environment reproducible via `docker compose up --build`
 - [x] `pytest` PASS, `tsc` PASS, `eslint` PASS, frontend build PASS
 - [x] Phase 1 / architecture / setup / database / API documented
+
+## Live demonstration
+
+Screenshots and 20-second videos captured from a real run (no mocks):
+[`docs/demo/README.md`](demo/README.md) — 7 screenshots and 2 videos showing
+the animated landing page, the live FastAPI → PostgreSQL status terminal, and
+a real registration → protected account flow.
