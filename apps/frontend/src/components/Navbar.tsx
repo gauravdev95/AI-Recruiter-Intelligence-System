@@ -23,7 +23,7 @@ export default function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.07] bg-[#05070f]/70 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
         <Link to="/" className="group flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-violet-600 text-sm font-black text-white shadow-[0_0_24px_-4px_rgba(59,130,246,0.8)] transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 text-sm font-black text-white shadow-[0_0_24px_-4px_rgba(249,115,22,0.8)] transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6">
             AI
           </span>
           <span className="text-[15px] font-bold tracking-tight text-white">
@@ -57,9 +57,9 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/register"
-                className="rounded-lg bg-gradient-to-r from-brand-600 to-violet-600 px-4 py-2 font-semibold text-white shadow-[0_0_20px_-5px_rgba(59,130,246,0.7)] transition-all hover:brightness-110"
+                className="rounded-lg bg-gradient-to-r from-orange-600 to-amber-500 px-4 py-2 font-semibold text-white shadow-[0_0_20px_-5px_rgba(249,115,22,0.7)] transition-all hover:brightness-110"
               >
-                Register
+                Get started
               </Link>
             </>
           )}

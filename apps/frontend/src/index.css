@@ -11,7 +11,7 @@
     font-feature-settings: "ss01", "cv11";
   }
   ::selection {
-    @apply bg-brand-500/40 text-white;
+    @apply bg-orange-500/40 text-white;
   }
 }
 
@@ -29,7 +29,7 @@
 
   /* ---------- buttons ---------- */
   .btn-primary-glow {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-brand-600 to-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_0_30px_-5px_rgba(59,130,246,0.6)] transition-all duration-300 hover:shadow-[0_0_45px_-5px_rgba(59,130,246,0.9)] hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-orange-600 to-amber-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_0_30px_-5px_rgba(249,115,22,0.6)] transition-all duration-300 hover:shadow-[0_0_45px_-5px_rgba(249,115,22,0.9)] hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
   }
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-200 backdrop-blur transition-all duration-300 hover:border-white/30 hover:bg-white/10 active:scale-[0.98];
@@ -45,10 +45,10 @@
 
   /* ---------- text ---------- */
   .gradient-text {
-    @apply bg-gradient-to-r from-sky-300 via-brand-400 to-violet-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-amber-200 via-orange-400 to-amber-500 bg-clip-text text-transparent;
   }
   .section-kicker {
-    @apply mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-brand-300;
+    @apply mb-3 inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-orange-300;
   }
 
   /* ---------- scroll reveal ---------- */
@@ -99,7 +99,7 @@
   }
   .terminal-cursor::after {
     content: "▊";
-    @apply ml-0.5 text-brand-400;
+    @apply ml-0.5 text-orange-400;
     animation: blink 1s step-end infinite;
   }
 
@@ -114,10 +114,52 @@
     animation: spin 14s linear infinite;
   }
   .card-hover {
-    @apply transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-500/40 hover:shadow-[0_20px_60px_-15px_rgba(59,130,246,0.35)];
+    @apply transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-500/40 hover:shadow-[0_20px_60px_-15px_rgba(249,115,22,0.35)];
   }
   .method-badge {
     @apply inline-flex min-w-[52px] items-center justify-center rounded-md px-2 py-1 font-mono text-[11px] font-bold tracking-wide;
+  }
+
+  /* ---------- word-by-word headline reveal ---------- */
+  .word-reveal .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.55em);
+    filter: blur(6px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--word-delay, 0ms);
+    will-change: opacity, transform, filter;
+  }
+  .word-reveal.revealed .w {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .word-reveal .w {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
+    }
+  }
+
+  /* ---------- mouse parallax for floating chips ---------- */
+  .parallax-layer {
+    transform: translate3d(
+      calc(var(--px, 0) * var(--depth, 12) * 1px),
+      calc(var(--py, 0) * var(--depth, 12) * 1px),
+      0
+    );
+    transition: transform 0.25s ease-out;
+  }
+
+  /* ---------- orange glow helpers ---------- */
+  .glow-orange-text {
+    text-shadow: 0 0 32px rgba(249, 115, 22, 0.45);
   }
 }
 
