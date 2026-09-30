@@ -52,8 +52,8 @@ tested locally.
    (`SECRET_KEY` / `JWT_SECRET_KEY` are auto-generated; `COOKIE_SECURE=true`
    and `SERVE_FRONTEND=true` are already set in `render.yaml`.)
 3. **Apply** → Render builds (pip install → `npm ci` → `npm run build` →
-   SPA copied into the backend), runs `alembic upgrade head` as the
-   pre-deploy command, then starts uvicorn.
+   SPA copied into the backend → `alembic upgrade head` as the final build
+   step), then starts uvicorn.
 
 ## Step 3 — Verify (2 min)
 
@@ -104,4 +104,4 @@ Local dev is unchanged: `SERVE_FRONTEND` defaults to `false`, so
 ## Redeploying
 
 Every push to `main` auto-redeploys (Render default). Migrations run
-automatically via `preDeployCommand` before the new version starts.
+automatically as the last step of the build before the new version starts.

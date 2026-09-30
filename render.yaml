@@ -6,6 +6,10 @@
 # Database: Neon Postgres (free tier, no expiry) — paste its connection string
 # into DATABASE_URL when Render asks for the `sync: false` values.
 #
+# NOTE: Render free tier does not support preDeployCommand, so the Alembic
+# migration runs as the last step of buildCommand (env vars, including
+# DATABASE_URL, are available during the build).
+#
 # Deploy: Render dashboard → New → Blueprint → select this repo.
 
 services:
@@ -21,8 +25,9 @@ services:
       npm run build &&
       rm -rf ../backend/static &&
       mkdir -p ../backend/static &&
-      cp -r dist/. ../backend/static/
-    preDeployCommand: "cd apps/backend && alembic upgrade head"
+      cp -r dist/. ../backend/static/ &&
+      cd ../backend &&
+      alembic upgrade head
     startCommand: "cd apps/backend && uvicorn src.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: PYTHON_VERSION
