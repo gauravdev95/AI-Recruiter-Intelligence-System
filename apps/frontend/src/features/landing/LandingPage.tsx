@@ -4,21 +4,23 @@ import { Link } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 import Reveal from "../../components/Reveal";
+import AuroraBackground from "../../components/AuroraBackground";
 import { api } from "../../lib/api";
 import type { HealthResponse } from "../../lib/types";
 
 /* ------------------------------------------------------------------ */
-/*  Animated background: aurora orbs + grid + vignette                  */
+/*  Animated background: aurora canvas + grid + vignette                */
 /* ------------------------------------------------------------------ */
 function Backdrop() {
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="bg-grid mask-fade-radial absolute inset-0" />
-      <div className="animate-float-slow absolute -top-32 left-[8%] h-[480px] w-[480px] rounded-full bg-brand-600/25 blur-[130px]" />
-      <div className="animate-float-slower absolute top-[30%] right-[4%] h-[420px] w-[420px] rounded-full bg-violet-600/20 blur-[130px]" />
-      <div className="animate-float-slow absolute bottom-[-10%] left-[30%] h-[380px] w-[520px] rounded-full bg-cyan-500/10 blur-[140px]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#05070f]" />
-    </div>
+    <>
+      <AuroraBackground />
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="bg-grid mask-fade-radial absolute inset-0 opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#05070f]" />
+        <div className="absolute inset-0 shadow-[inset_0_0_220px_60px_rgba(3,5,12,0.85)]" />
+      </div>
+    </>
   );
 }
 
