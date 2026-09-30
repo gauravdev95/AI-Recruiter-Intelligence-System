@@ -16,7 +16,7 @@ function Backdrop() {
     <>
       <AuroraBackground />
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="bg-grid mask-fade-radial absolute inset-0 opacity-60" />
+        <div className="bg-grid mask-fade-radial absolute inset-0 opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#05070f]" />
         <div className="absolute inset-0 shadow-[inset_0_0_220px_60px_rgba(3,5,12,0.85)]" />
       </div>

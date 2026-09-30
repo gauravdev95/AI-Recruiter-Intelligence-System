@@ -176,6 +176,15 @@ export default function AuroraBackground() {
         octx.shadowBlur = h * 0.12;
         octx.stroke();
         octx.shadowBlur = 0;
+
+        // Bright core streak — the signature light-stream look.
+        octx.strokeStyle = "rgba(186,230,253,0.55)";
+        octx.lineWidth = Math.max(1.2, h * 0.016);
+        octx.globalAlpha = Math.min(1, r.alpha + 0.1);
+        octx.shadowColor = "rgba(125,211,252,0.9)";
+        octx.shadowBlur = h * 0.05;
+        octx.stroke();
+        octx.shadowBlur = 0;
         octx.globalAlpha = 1;
       }
 
@@ -183,11 +192,11 @@ export default function AuroraBackground() {
       for (const p of particles) {
         const driftX = ((p.x + t * p.speed * 0.02) % 1) * w;
         const driftY = (p.y % 1) * h;
-        const tw = 0.25 + 0.75 * Math.abs(Math.sin(t * p.twinkle + p.phase));
-        octx.globalAlpha = 0.5 * tw;
-        octx.fillStyle = "#bae6fd";
+        const tw = 0.35 + 0.65 * Math.abs(Math.sin(t * p.twinkle + p.phase));
+        octx.globalAlpha = 0.75 * tw;
+        octx.fillStyle = "#e0f2fe";
         octx.beginPath();
-        octx.arc(driftX, driftY, p.r, 0, Math.PI * 2);
+        octx.arc(driftX, driftY, p.r * 1.4, 0, Math.PI * 2);
         octx.fill();
       }
       octx.globalAlpha = 1;
