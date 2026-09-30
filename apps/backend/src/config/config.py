@@ -19,6 +19,10 @@ class AppSettings(BaseSettings):
     frontend_base_url: str = "http://localhost:5173"
     allowed_origins: str = "http://localhost:5173"
     cookie_secure: bool = False
+    # Single-service production deploy (e.g. Render free tier): the backend
+    # also serves the built React SPA from <backend>/static so the whole app
+    # runs same-origin (keeps the HttpOnly refresh cookie working).
+    serve_frontend: bool = False
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

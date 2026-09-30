@@ -95,7 +95,12 @@ is typed in and created against the live API, then the protected
 
 ## 🚀 Quick start
 
-**Option A — Docker (recommended)**
+**Hosted demo (free):** the whole Phase 1 app — API + React SPA, one URL —
+is deployable in ~15 minutes on Render's free tier with a free Neon Postgres.
+See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the step-by-step guide
+(and `render.yaml` for the one-click Blueprint).
+
+**Option A — Docker (local)**
 
 ```bash
 cp .env.example .env

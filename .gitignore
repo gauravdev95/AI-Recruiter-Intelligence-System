@@ -23,3 +23,6 @@ Thumbs.db
 
 # Alembic
 *.pyc
+
+# Built frontend SPA served by the backend in single-service deploys (render.yaml builds it)
+apps/backend/static/
