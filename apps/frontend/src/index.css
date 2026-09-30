@@ -191,6 +191,42 @@
   }
 }
 
+/* AI chip (SVG) — breathing node halos + chip glow. */
+@keyframes ai-node-breathe {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.ai-node-halo {
+  animation: ai-node-breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes ai-chip-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.88;
+  }
+}
+
+.ai-chip-breathe {
+  animation: ai-chip-breathe 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-node-halo,
+  .ai-chip-breathe {
+    animation: none;
+  }
+}
+
 @keyframes float-y {
   0%,
   100% {
