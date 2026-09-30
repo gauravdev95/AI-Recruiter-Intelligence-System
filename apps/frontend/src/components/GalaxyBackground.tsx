@@ -46,15 +46,19 @@ type Star = {
 function pickColor(core: boolean): { color: string; baseAlpha: number } {
   const roll = Math.random();
   if (core) {
-    // Hot bright core: white / pale blue.
-    return roll < 0.6
-      ? { color: "#ffffff", baseAlpha: 0.95 }
-      : { color: "#dbeafe", baseAlpha: 0.9 };
+    // Hot bright core: mostly pale blue-white, rarely pure white.
+    if (roll < 0.3) return { color: "#ffffff", baseAlpha: 0.85 };
+    if (roll < 0.65) return { color: "#e0f2fe", baseAlpha: 0.8 };
+    return { color: "#c7d2fe", baseAlpha: 0.75 };
   }
-  if (roll < 0.62) return { color: "#f1f5f9", baseAlpha: 0.75 }; // cool white
-  if (roll < 0.78) return { color: "#93c5fd", baseAlpha: 0.7 }; // pale blue
-  if (roll < 0.88) return { color: "#c4b5fd", baseAlpha: 0.6 }; // faint violet
-  return { color: roll < 0.94 ? "#fcd34d" : "#fb923c", baseAlpha: 0.8 }; // warm amber accents
+  // Arms: fine colorful grain — blues/violet/teal dominate, white is rare.
+  if (roll < 0.3) return { color: "#93c5fd", baseAlpha: 0.6 }; // pale blue
+  if (roll < 0.48) return { color: "#a5b4fc", baseAlpha: 0.55 }; // soft indigo
+  if (roll < 0.6) return { color: "#67e8f9", baseAlpha: 0.5 }; // teal
+  if (roll < 0.72) return { color: "#e2e8f0", baseAlpha: 0.55 }; // cool silver
+  if (roll < 0.8) return { color: "#f1f5f9", baseAlpha: 0.6 }; // sparse white
+  if (roll < 0.9) return { color: "#64748b", baseAlpha: 0.45 }; // dim slate dust
+  return { color: roll < 0.95 ? "#fcd34d" : "#fb923c", baseAlpha: 0.65 }; // warm amber accents
 }
 
 function makeGalaxy(count: number): GalaxyParticle[] {
@@ -66,7 +70,8 @@ function makeGalaxy(count: number): GalaxyParticle[] {
       arm: i % ARMS,
       rFrac: core ? Math.pow(Math.random(), 1.6) * 0.16 : 0.06 + Math.pow(Math.random(), 0.65) * 0.94,
       spread: (Math.random() + Math.random() + Math.random() - 1.5) / 1.5,
-      size: core ? 0.8 + Math.random() * 1.6 : 0.5 + Math.random() * 1.3,
+      // Fine grain: small dots, not blobs.
+      size: core ? 0.5 + Math.random() * 0.9 : 0.3 + Math.random() * 0.8,
       color,
       baseAlpha,
       twinkleSpeed: 0.5 + Math.random() * 2.4,
@@ -114,7 +119,7 @@ export default function GalaxyBackground() {
     let running = true;
     let scrollFade = 1;
     const mouse = { x: 0.5, tx: 0.5 };
-    const galaxy = makeGalaxy(1500);
+    const galaxy = makeGalaxy(2400);
     const stars = makeStars(230);
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -204,11 +209,11 @@ export default function GalaxyBackground() {
           octx.beginPath();
           octx.arc(px, py, p.size, 0, Math.PI * 2);
           octx.fill();
-          // Halo for the brightest particles.
-          if (p.core || p.size > 1.5) {
-            octx.globalAlpha = p.baseAlpha * tw * scrollFade * 0.25;
+          // Faint halo only for the rare brightest dots.
+          if (p.size > 1.0) {
+            octx.globalAlpha = p.baseAlpha * tw * scrollFade * 0.18;
             octx.beginPath();
-            octx.arc(px, py, p.size * 3.2, 0, Math.PI * 2);
+            octx.arc(px, py, p.size * 2.4, 0, Math.PI * 2);
             octx.fill();
           }
         }
